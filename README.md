@@ -32,7 +32,7 @@ This is a customizable implementation of the classic Connect Four game. Players 
 ![Connect Four Game](https://github.com/mathytech1/ConnectFour/blob/main/src/main/java/mavenproject/connect_four/images/screenshot.png)
 
 ## **UML Class Diagram**
-![Connect Four Game](https://github.com/mathytech1/ConnectFour/blob/main/src/main/java/mavenproject/connect_four/uml_diagram/uml_diagram.pdf)
+![Connect Four Game](https://github.com/mathytech1/ConnectFour/blob/main/src/main/java/mavenproject/connect_four/images/uml_diagram.png)
 
 
 
