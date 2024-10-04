@@ -2,6 +2,10 @@ package mavenproject.connect_four;
 
 import java.util.Scanner;
 
+import mavenproject.connect_four.exceptions.ColumnFullException;
+import mavenproject.connect_four.exceptions.InvalidBoardSizeException;
+import mavenproject.connect_four.exceptions.InvalidMoveException;
+
 public class Game {
 	   private Player[] players;
 	    private Board board;
@@ -13,7 +17,7 @@ public class Game {
 	        this.board = new Board(); // complete line
 	    }
 
-	    public void setUpGame() {
+	    public void setUpGame() throws InvalidBoardSizeException {
 	        System.out.println("Enter player 1's name: ");
 	        players[0] = new Player(scanner.nextLine(), "1");
 	        System.out.println("Enter player 2's name: ");
@@ -34,7 +38,7 @@ public class Game {
 	        players[1] = new Player(playerTwoName, "2");
 
 	        // set up the board using the appropriate method
-	        board.boardSetUp();
+			board.boardSetUp();
 	        // print the board the using appropriate method
 	        board.printBoard();
 	    }
@@ -46,7 +50,7 @@ public class Game {
 	        } 
 	    }
 
-	    public void playerTurn(Player currentPlayer) {
+	    public void playerTurn(Player currentPlayer) throws InvalidMoveException, ColumnFullException {
 	        int col = currentPlayer.makeMove();
 	       
 	        if (!board.boardFull()) {
@@ -57,9 +61,16 @@ public class Game {
 	        board.printBoard();
 	    }
 
-	    public void play() {
+	    public void play(){
 	        boolean noWinner = true;
-	        this.setUpGame();
+	        
+	        try {
+	            this.setUpGame();
+	        } catch (InvalidBoardSizeException e) {
+	            System.out.println(e.getMessage());
+	            return;
+	        }
+	        
 	        int currentPlayerIndex = 0;
 
 	        while (noWinner) {
@@ -72,7 +83,14 @@ public class Game {
 	            Player currentPlayer = players[currentPlayerIndex];
 	            // Override default tostring for Player class
 	            System.out.println(toString(currentPlayer));
-	            playerTurn(currentPlayer);
+	            try {
+	                playerTurn(currentPlayer);
+	            } catch (InvalidMoveException | ColumnFullException e) {
+	                System.out.println(e.getMessage());
+	                currentPlayerIndex = (currentPlayerIndex == 0) ? 1 : 0; // reassign the variable to allow the game to continue. Note the index would wrap back to the first player if we are at the end. Think of using modulus (%).
+	                continue;
+	            }
+
 	            if (board.checkIfPlayerIsTheWinner(currentPlayer.getPlayerNumber())) {
 	                printWinner(currentPlayer);
 	                noWinner = false;

@@ -3,18 +3,28 @@ package mavenproject.connect_four;
 import java.util.Arrays;
 import java.util.Scanner;
 
+import mavenproject.connect_four.exceptions.ColumnFullException;
+import mavenproject.connect_four.exceptions.InvalidBoardSizeException;
+import mavenproject.connect_four.exceptions.InvalidMoveException;
+
 public class Board {
     // add instance variables
     private String[][] board;
     Scanner scanner = new Scanner(System.in);
-    public void boardSetUp() {
+    public void boardSetUp() throws InvalidBoardSizeException {
         System.out.println("------ Board Set up -------");
         System.out.println("Number of rows: ");
         int rows = scanner.nextInt(); // receive user input
         System.out.println("Number of cols: ");
         int columns = scanner.nextInt(); // receive column value
+        
+        // Check if the provided size has at least 4 rows and 4 columns
+        if (rows < 4 || columns < 4) {
+            throw new InvalidBoardSizeException("Board size must be at least 4x4!");
+        }
+        
         this.board = new String[rows][columns]; // initialize a row by column array;
-
+        
         // initialize empty board with dashes (-)
         for (String[] row : board) {
             // fill up each row of the board with dashes
@@ -31,12 +41,7 @@ public class Board {
     }
 
     public boolean columnFull(int col) {
-    	// if(col > board[0].length)
-        if (board[0][col]=="-")// check if the column is full by just checking the 0'th row's value
-        {
-            return false;
-        }
-        return true;
+    	return !(board[0][col]=="-"); // check if the column is full by just checking the 0'th row's value
     }
 
     public boolean boardFull() {
@@ -49,10 +54,19 @@ public class Board {
         return true;
     }
 
-    public boolean addToken(int colToAddToken, String token) {
+    public boolean addToken(int colToAddToken, String token) throws InvalidMoveException, ColumnFullException {
+    	// Check if the column to add the token is not out of range (greater than board column length or less than zero)
+    	if(colToAddToken < 0 || colToAddToken > board[0].length) {
+    		throw new InvalidMoveException("Invalid column: " + colToAddToken);
+    	}
+    	// Check if the column to add the token is already full or not
+    	if(columnFull(colToAddToken)) {
+    		throw new ColumnFullException(colToAddToken + " is full!");
+    	}
+    	
         int rowToAddToken = board.length - 1;
 
-        while (rowToAddToken > 0)// what condition should be here to allow you to keep searching for the right row level of the board to place the token?  
+        while (rowToAddToken >= 0)// what condition should be here to allow you to keep searching for the right row level of the board to place the token?  
         {
             if (board[rowToAddToken][colToAddToken].equals("-")) {
                // You now know the right row and column to place the token. Place it and then return true.
@@ -67,18 +81,8 @@ public class Board {
     }
 
     public boolean checkIfPlayerIsTheWinner(String playerNumber) {
-        if (checkHorizontal(playerNumber)) {
-            return true;
-        } else if (checkLeftDiagonal(playerNumber)) {
-            return true;
-        }
-        // what other conditions should we include here?
-        else if (checkVertical(playerNumber)) {
-            return true;
-        } else if(checkRightDiagonal(playerNumber)) {
-        	return true;
-        }
-        return false;
+    	// If any of the check is true then it will return true and the winner will be known.
+    	return checkHorizontal(playerNumber) || checkLeftDiagonal(playerNumber) || checkVertical(playerNumber) || checkRightDiagonal(playerNumber);
     }
 
     public boolean checkVertical(String playerNumber) {
