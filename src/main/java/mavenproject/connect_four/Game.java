@@ -72,7 +72,8 @@ public class Game {
 	        }
 	        
 	        int currentPlayerIndex = 0;
-
+	        
+	        // Check if there is no winner, if true it will keep running if false it will print the winner and terminate the program.
 	        while (noWinner) {
 	            // provide condition
 	            if (board.boardFull()) {
@@ -83,6 +84,8 @@ public class Game {
 	            Player currentPlayer = players[currentPlayerIndex];
 	            // Override default tostring for Player class
 	            System.out.println(toString(currentPlayer));
+	            
+	            // Call playerTurn() method of Game class and handle any exception it may generate 
 	            try {
 	                playerTurn(currentPlayer);
 	            } catch (InvalidMoveException | ColumnFullException e) {
@@ -90,16 +93,18 @@ public class Game {
 	                currentPlayerIndex = (currentPlayerIndex == 0) ? 1 : 0; // reassign the variable to allow the game to continue. Note the index would wrap back to the first player if we are at the end. Think of using modulus (%).
 	                continue;
 	            }
-
+	            
+	            // Check if the current player is a winner and if true print the winner
 	            if (board.checkIfPlayerIsTheWinner(currentPlayer.getPlayerNumber())) {
 	                printWinner(currentPlayer);
 	                noWinner = false;
-	            } else {
+	            } else { // Change the current player to the other player
 	                currentPlayerIndex = (currentPlayerIndex == 0) ? 1 : 0; // reassign the variable to allow the game to continue. Note the index would wrap back to the first player if we are at the end. Think of using modulus (%).
 	            }
 	        }
 	    }
 	    
+	    // To display who's turn it's upon called.
 	    public String toString(Player currentPlayer) {
 	    	return "It is player " + currentPlayer.getPlayerNumber() + "'s turn. " + currentPlayer;
 	    }
