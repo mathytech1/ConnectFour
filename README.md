@@ -29,5 +29,6 @@ This is a customizable implementation of the classic Connect Four game. Players 
 6. If the board is full and no player has connected four, the game will declare a draw.
 
 ## **Example**
+![Alt text]([relative/path/to/image](https://github.com/mathytech1/ConnectFour/blob/main/src/main/java/mavenproject/connect_four/images/screenshot.png))
 
 
