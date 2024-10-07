@@ -52,13 +52,25 @@ public class Game {
 
 	    public void playerTurn(Player currentPlayer) throws InvalidMoveException, ColumnFullException {
 	        int col = currentPlayer.makeMove();
+	        boolean isAdded = false;
 	       
 	        if (!board.boardFull()) {
 	           // call board method to add token.
-	           board.addToken(col, currentPlayer.getPlayerNumber());
+	           isAdded = board.addToken(col, currentPlayer.getPlayerNumber());
 	        }
 	        // print board
 	        board.printBoard();
+	        if(isAdded) {
+	        	System.out.println("Press 0 to undo or 1 to continue!!!");
+	            int op = scanner.nextInt();
+	            if(op==0) {
+	         	   board.undoMove(col, currentPlayer.getPlayerNumber());
+	         	   playerTurn(currentPlayer);
+	            }
+	            board.printBoard();
+	            
+	        }
+	        
 	    }
 
 	    public void play(){
@@ -73,8 +85,12 @@ public class Game {
 	        
 	        int currentPlayerIndex = 0;
 	        
+	        System.out.println("You have 10 minutes to complete this game.");
+	        // Get the starting time
+	        long startTime = System.currentTimeMillis();
+	        long endTime = System.currentTimeMillis();
 	        // Check if there is no winner, if true it will keep running if false it will print the winner and terminate the program.
-	        while (noWinner) {
+	        while (noWinner && (endTime - startTime <= 300000)) {
 	            // provide condition
 	            if (board.boardFull()) {
 	                System.out.println("Board is now full. Game Ends.");
@@ -82,8 +98,10 @@ public class Game {
 	            }
 
 	            Player currentPlayer = players[currentPlayerIndex];
+	            int minutes = (int)(300000 - (endTime - startTime))/(1000*60);
+	            int seconds = (int)(300000 - (endTime - startTime)) % (1000);
 	            // Override default tostring for Player class
-	            System.out.println(toString(currentPlayer));
+	            System.out.println(toString(currentPlayer) + ". " + minutes + " minutes and " + seconds + " seconds left!");
 	            
 	            // Call playerTurn() method of Game class and handle any exception it may generate 
 	            try {
@@ -101,6 +119,10 @@ public class Game {
 	            } else { // Change the current player to the other player
 	                currentPlayerIndex = (currentPlayerIndex == 0) ? 1 : 0; // reassign the variable to allow the game to continue. Note the index would wrap back to the first player if we are at the end. Think of using modulus (%).
 	            }
+	            endTime = System.currentTimeMillis();
+	        }
+	        if((endTime - startTime > 300000) && noWinner) {
+	        	System.out.println("Time is up!!!");
 	        }
 	    }
 	    

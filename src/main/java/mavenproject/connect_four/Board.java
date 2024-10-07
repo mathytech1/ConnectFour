@@ -53,15 +53,15 @@ public class Board {
         }
         return true;
     }
-
+    
     public boolean addToken(int colToAddToken, String token) throws InvalidMoveException, ColumnFullException {
     	// Check if the column to add the token is not out of range (greater than board column length or less than zero)
-    	if(colToAddToken < 0 || colToAddToken > board[0].length) {
+    	if(colToAddToken < 0 || colToAddToken > board[0].length-1) {
     		throw new InvalidMoveException("Invalid column: " + colToAddToken);
     	}
     	// Check if the column to add the token is already full or not
     	if(columnFull(colToAddToken)) {
-    		throw new ColumnFullException(colToAddToken + " is full!");
+    		throw new ColumnFullException("Column " + colToAddToken + " is full!");
     	}
     	
         int rowToAddToken = board.length - 1;
@@ -72,6 +72,26 @@ public class Board {
             if (board[rowToAddToken][colToAddToken].equals("-")) {
                // You now know the right row and column to place the token. Place it and then return true.
                board[rowToAddToken][colToAddToken] = token;
+                return true;
+            } else {
+                rowToAddToken -= 1;
+            }
+        }
+
+        return false;
+    }
+    
+    // To undo the last move
+    public boolean undoMove(int colToAddToken, String token) throws InvalidMoveException, ColumnFullException {
+        	
+        int rowToAddToken = board.length - 1;
+        
+        // As long as rowToAddToken >= 0, check if there is any element at the top and add the token if the empty delete the token if it's is available
+        while (rowToAddToken >= 0)// what condition should be here to allow you to keep searching for the right row level of the board to place the token?  
+        {
+            if (!board[rowToAddToken][colToAddToken].equals("-")) {
+               // You now know the right row and column to delete the token and then return true.
+               board[rowToAddToken][colToAddToken] = "-";
                 return true;
             } else {
                 rowToAddToken -= 1;
