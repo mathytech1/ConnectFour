@@ -110,7 +110,7 @@ public class Game {
 	        }
 	        
 	        int currentPlayerIndex = 0;
-	        
+	        System.out.println("Choose a Winning Condition");
 	        System.out.println("Press 4. Four In a Row");
 	        System.out.println("Press 5. Five In a Row");
 	        System.out.println("Press 6. Six In a Row");
