@@ -101,72 +101,215 @@ public class Board {
         return false;
     }
 
-    public boolean checkIfPlayerIsTheWinner(String playerNumber) {
+    public boolean checkIfPlayerIsTheWinner(String playerNumber, int inaRow) {
     	// If any of the check is true then it will return true and the winner will be known.
-    	return checkHorizontal(playerNumber) || checkLeftDiagonal(playerNumber) || checkVertical(playerNumber) || checkRightDiagonal(playerNumber);
+    	return checkHorizontal(playerNumber, inaRow) || checkLeftDiagonal(playerNumber, inaRow) || checkVertical(playerNumber, inaRow) || checkRightDiagonal(playerNumber, inaRow);
     }
 
-    public boolean checkVertical(String playerNumber) {
-        for (int col = 0; col < board[0].length; col++) {
-            // length - 3 here because we are comparing 4 in a row items
-            for (int row = 0; row < board.length - 3; row++) {
-                if (board[row][col].equals(playerNumber)) {
-                    if (board[row][col] == board[row + 1][col]
-                            && board[row][col] == board[row + 2][col]
-                            && board[row][col] == board[row + 3][col]) {
-                        return true;
-                    }
+    public boolean checkVertical(String playerNumber, int inaRow) {
+    	switch(inaRow) {
+    	case 4:
+    		for (int col = 0; col < board[0].length; col++) {
+                // length - 3 here because we are comparing 4 in a row items
+                for (int row = 0; row < board.length - 3; row++) {
+                	if (board[row][col].equals(playerNumber)) {
+                        if (board[row][col] == board[row + 1][col]
+                                && board[row][col] == board[row + 2][col]
+                                && board[row][col] == board[row + 3][col]) {
+                            return true;
+                        }
+                    }                    
                 }
             }
-        }
-
-        return false;
-
-    }
-
-    public boolean checkHorizontal(String playerNumber) {
-        for (int row=0; row < board.length; row++) {
-           // try implementing this by being inspired by the checkVertical logic. Note avoid off by 1 errors. Also remember that you are now checking across columns within each row this time. 
-           for(int col = 0; col < board[0].length - 3; col++){
-                if(board[row][col].equals(playerNumber)){
-                    if(board[row][col] == board[row][col + 1]
-                    && board[row][col] == board[row][col + 2]
-                    && board[row][col] == board[row][col + 3]) {
-                    	return true;
-                    }
-                }
-           }
-        }
-        return false;
-    }
-
-     public boolean checkLeftDiagonal(String playerNumber) {
-        for (int row = 0; row < board.length - 3; row++) {
-            for (int col = 0; col < board[0].length - 3; col++) {
-                if (board[row][col].equals(playerNumber)) {
-                    if (board[row][col] == board[row + 1][col + 1]
-                            && board[row][col] == board[row + 2][col + 2]
-                            && board[row][col] == board[row + 3][col + 3]) {
-                        return true;
-                    }
+    		break;
+    		
+    	case 5:
+    		for (int col = 0; col < board[0].length; col++) {
+                // length - 3 here because we are comparing 4 in a row items
+                for (int row = 0; row < board.length - 4; row++) {
+                	if (board[row][col].equals(playerNumber)) {
+                        if (board[row][col] == board[row + 1][col]
+                                && board[row][col] == board[row + 2][col]
+                                && board[row][col] == board[row + 3][col]
+                        		&& board[row][col] == board[row + 4][col]) {
+                            return true;
+                        }
+                    }                    
                 }
             }
-        }
+    		break;
+    		
+    	case 6:
+    		for (int col = 0; col < board[0].length; col++) {
+                // length - 3 here because we are comparing 4 in a row items
+                for (int row = 0; row < board.length - 5; row++) {
+                	if (board[row][col].equals(playerNumber)) {
+                        if (board[row][col] == board[row + 1][col]
+                                && board[row][col] == board[row + 2][col]
+                                && board[row][col] == board[row + 3][col]
+                        		&& board[row][col] == board[row + 4][col]
+                				&& board[row][col] == board[row + 5][col]) {
+                            return true;
+                        }
+                    }                    
+                }
+            }
+    		break;
+    	}
+        
+        return false;
+
+    }
+
+    public boolean checkHorizontal(String playerNumber, int inaRow) {
+    	switch(inaRow) {
+    	case 4:
+		   for (int row=0; row < board.length; row++) {
+	           // try implementing this by being inspired by the checkVertical logic. Note avoid off by 1 errors. Also remember that you are now checking across columns within each row this time. 
+	           for(int col = 0; col < board[0].length - 3; col++){
+	                if(board[row][col].equals(playerNumber)){
+	                    if(board[row][col] == board[row][col + 1]
+	                    && board[row][col] == board[row][col + 2]
+	                    && board[row][col] == board[row][col + 3]) {
+	                    	return true;
+	                    }
+	                }
+	           }
+	        }
+		   break;
+    		   
+    	case 5:
+		   for (int row=0; row < board.length; row++) {
+	           // try implementing this by being inspired by the checkVertical logic. Note avoid off by 1 errors. Also remember that you are now checking across columns within each row this time. 
+	           for(int col = 0; col < board[0].length - 4; col++){
+	                if(board[row][col].equals(playerNumber)){
+	                    if(board[row][col] == board[row][col + 1]
+	                    && board[row][col] == board[row][col + 2]
+	                    && board[row][col] == board[row][col + 3]
+                		&& board[row][col] == board[row][col + 4]) {
+	                    	return true;
+	                    }
+	                }
+	           }
+	        }
+		   break;
+		   
+    	case 6: 
+    		for (int row=0; row < board.length; row++) {
+ 	           // try implementing this by being inspired by the checkVertical logic. Note avoid off by 1 errors. Also remember that you are now checking across columns within each row this time. 
+ 	           for(int col = 0; col < board[0].length - 4; col++){
+ 	                if(board[row][col].equals(playerNumber)){
+ 	                    if(board[row][col] == board[row][col + 1]
+ 	                    && board[row][col] == board[row][col + 2]
+ 	                    && board[row][col] == board[row][col + 3]
+                 		&& board[row][col] == board[row][col + 4]) {
+ 	                    	return true;
+ 	                    }
+ 	                }
+ 	           }
+ 	        }
+    		break;
+    	}
+    	
+        return false;
+        
+    }
+
+     public boolean checkLeftDiagonal(String playerNumber, int inaRow) {
+	    switch(inaRow) {
+	    case 4:
+	        for (int row = 0; row < board.length - 3; row++) {
+	            for (int col = 0; col < board[0].length - 3; col++) {
+	                if (board[row][col].equals(playerNumber)) {
+	                    if (board[row][col] == board[row + 1][col + 1]
+	                            && board[row][col] == board[row + 2][col + 2]
+	                            && board[row][col] == board[row + 3][col + 3]) {
+	                        return true;
+	                    }
+	                }
+	            }
+	        }
+	        break;
+	    case 5: 
+	        for (int row = 0; row < board.length - 4; row++) {
+	            for (int col = 0; col < board[0].length - 4; col++) {
+	                if (board[row][col].equals(playerNumber)) {
+	                    if (board[row][col] == board[row + 1][col + 1]
+	                        && board[row][col] == board[row + 2][col + 2]
+	                        && board[row][col] == board[row + 3][col + 3]
+	                		&& board[row][col] == board[row + 4][col + 4]) {
+	                    		return true;
+	                    }
+	                }
+	            }
+	        }
+	        break;
+	        
+	    case 6:
+	    	  for (int row = 0; row < board.length - 5; row++) {
+	              for (int col = 0; col < board[0].length - 5; col++) {
+	                  if (board[row][col].equals(playerNumber)) {
+	                      if (board[row][col] == board[row + 1][col + 1]
+	                          && board[row][col] == board[row + 2][col + 2]
+	                          && board[row][col] == board[row + 3][col + 3]
+	                  		  && board[row][col] == board[row + 4][col + 4]
+	          				  && board[row][col] == board[row + 4][col + 5]) {
+	                      		return true;
+	                      }
+	                  }
+	              }
+	          }
+	    	  break;
+	    }
         return false;
     }
 
-    public boolean checkRightDiagonal(String playerNumber) {
+    public boolean checkRightDiagonal(String playerNumber, int inaRow) {
        // implment method and return an appropriate return type.
-       for (int row = 0; row < board.length - 3; row++){
-            for (int col = board[0].length-1; col >= 3; col--){
-                if(board[row][col].equals(playerNumber)){
-                    if(board[row][col] == board[row + 1][col - 1]
-                    && board[row][col] == board[row + 2][col - 2]
-                    && board[row][col] == board[row + 3][col - 3]){
-                        return true;
-                    }
-                }
-            }
+       switch(inaRow) {
+       case 4:
+    	   for (int row = 0; row < board.length - 3; row++){
+               for (int col = board[0].length-1; col >= 3; col--){
+                   if(board[row][col].equals(playerNumber)){
+                       if(board[row][col] == board[row + 1][col - 1]
+                       && board[row][col] == board[row + 2][col - 2]
+                       && board[row][col] == board[row + 3][col - 3]){
+                           return true;
+                       }
+                   }
+               }
+          }
+    	   break;
+       case 5:
+    	   for (int row = 0; row < board.length - 4; row++){
+               for (int col = board[0].length-1; col >= 4; col--){
+                   if(board[row][col].equals(playerNumber)){
+                       if(board[row][col] == board[row + 1][col - 1]
+                       && board[row][col] == board[row + 2][col - 2]
+                       && board[row][col] == board[row + 3][col - 3]
+            		   && board[row][col] == board[row + 4][col - 4]){
+                           return true;
+                       }
+                   }
+               }
+          }
+    	   break;
+    	   
+       case 6:
+    	   for (int row = 0; row < board.length - 5; row++){
+               for (int col = board[0].length-1; col >= 5; col--){
+                   if(board[row][col].equals(playerNumber)){
+                       if(board[row][col] == board[row + 1][col - 1]
+                       && board[row][col] == board[row + 2][col - 2]
+                       && board[row][col] == board[row + 3][col - 3]
+            		   && board[row][col] == board[row + 4][col - 4]
+    				   && board[row][col] == board[row + 5][col - 5]){
+                           return true;
+                       }
+                   }
+               }
+          }
+    	   break;
        }
        return false;
     }
